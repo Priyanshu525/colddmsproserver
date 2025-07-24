@@ -11,6 +11,94 @@ app.use(cors({
   credentials: true
 }));
 
+// Realistic /api/v1/campaign response
+const campaignResponse = {
+  "name": "HD_Media",
+  "isSubscribed": true,
+  "campaigns": [
+    {
+      "description": "tefs",
+      "variants": [
+        { "message": "hello 1" },
+        { "message": "hello 2" },
+        { "message": "hello 3" },
+        { "message": "hello 4" },
+        { "message": "hello 5" }
+      ],
+      "platform": "instagram",
+      "autoLikeNewestPost": true,
+      "followUser": true,
+      "totalLeads": 87,
+      "autoLikeStory": true,
+      "name": "testa",
+      "tag": "testa",
+      "workingHours": { "start": 0, "end": 24 },
+      "createdAt": 1753368108706,
+      "allLeads": "jsmrdck\nthe.shavin\nrandyjrichards\nsardarmosin\nnicolas_the_kitty\nharsus7\nmidhu140\ncheryl.bell.792\nsutton.remi\njay.sukumaran\nnobodycaresdee\namritjena_\nlicaonz\nmenamanmishra\nallanjhone.com.br\nlumina_by_victoria\nmr_jonasemily\niamkatiebryan\nluca.piccinotti\nmadankandula\nryanjeffreycruz\nmonshor\nagyassine_\neasierwitharda\njacobweiss\ndannyliewkc\ndamien_charbit\nnaomi.rila\njamesngww\ndrlieselholler\nitsritiqs\ngrietjiedupreez0\njoemaloshthatguy\nveghda317\nsafeeera_ashraf\natelierkatsb\nliset0109\nfadykhalife\nsheikh.khawar.qayyum\ndadaba_shadyvic0931\nhis_june\nv_vaek_7\nalbakras_music\nmadhan_thesteelbird\nlleex.xii\nnextgenwealthandinsurance\ndori.lmt\nann.borchers\nnathannunesy\nmatiascov.s\nmisscharmaine01\nely_gold\ndeano12341\n1.apha\ndorseybyers\nkipsons\nthe_copy_alchemist\nbharwani.rohit\n_productsandservices\nashokrsaini\nlake.wendy\nivy091909\nmusalesakshi9\nhaidarsalman15\nasifthekkc\nyousafzai__777\nwhoisshahalam\nthe_spiritual_soul_7\nmariamaher_official\n_vivek_saikia\nmoonstream.io\nheymuhammadali\ntoptonmedia\nsamuelmurphy_\n_g.o.b.e\nbenlopezarch\nbrooklyngfit_sg\npizzleainteasy\nbabssexton\nbetotamez\nadamantiumm\nabbas_michael_traore\nlejohndary1\nsoymarcelgarcia\nchetan_mishra_0095\nscorpio23_1969\ntejalforia\n\n",
+      "messageLimits": { "min": 35, "max": 43 },
+      "lastUpdated": { "_seconds": 1753368909, "_nanoseconds": 23000000 },
+      "status": "active",
+      "unassignedLeadsCount": -86,
+      "id": "4xDCDZoV82xsDze6RC5s",
+      "leads": [],
+      "leadsCount": 50
+    },
+    {
+      "description": "trading",
+      "allLeads": "nagpalgalaxy\nfrank_w4\nliawyeefai77\nthom.nb.sparks\njsmrdck\nthe.shavin\nrandyjrichards\nsardarmosin\nnicolas_the_kitty\nharsus7\nmidhu140\ncheryl.bell.792\nsutton.remi\njay.sukumaran\nnobodycaresdee\namritjena_\nlicaonz\nmenamanmishra\nallanjhone.com.br\nlumina_by_victoria\nmr_jonasemily\niamkatiebryan\nluca.piccinotti\nmadankandula\nryanjeffreycruz\nmonshor\nagyassine_\neasierwitharda\njacobweiss\ndannyliewkc\ndamien_charbit\nnaomi.rila\njamesngww\ndrlieselholler\nitsritiqs\ngrietjiedupreez0\njoemaloshthatguy\nveghda317\nsafeeera_ashraf\natelierkatsb\nliset0109\nfadykhalife\nsheikh.khawar.qayyum\ndadaba_shadyvic0931\nhis_june\nv_vaek_7\nalbakras_music\nmadhan_thesteelbird\nlleex.xii\nnextgenwealthandinsurance\ndori.lmt\nann.borchers\nnathannunesy\nmatiascov.s\nmisscharmaine01\nely_gold\ndeano12341\n1.apha\ndorseybyers\nkipsons\nthe_copy_alchemist\nbharwani.rohit\n_productsandservices\nashokrsaini\nlake.wendy\nivy091909\nmusalesakshi9\nhaidarsalman15\nasifthekkc\nyousafzai__777",
+      "variants": [
+        { "message": "Hey {firstname}, How are you?" },
+        { "message": "Hey {firstname}, How are you2?" },
+        { "message": "Hey {firstname}, How are you3?" },
+        { "message": "Hey {firstname}, How are you4?" },
+        { "message": "Hey {firstname}, How are you5?" }
+      ],
+      "platform": "instagram",
+      "autoLikeNewestPost": true,
+      "createdAt": 1753352131837,
+      "followUser": true,
+      "totalLeads": 70,
+      "autoLikeStory": true,
+      "name": "testing",
+      "tag": "traders",
+      "workingHours": { "start": 6, "end": 21 },
+      "messageLimits": { "min": 16, "max": 29 },
+      "lastUpdated": { "_seconds": 1753368766, "_nanoseconds": 845000000 },
+      "status": "paused",
+      "unassignedLeadsCount": 0,
+      "id": "NHDdzb5U2gafgQfqJ7pV",
+      "leads": [],
+      "leadsCount": 70
+    },
+    {
+      "description": "gsknfd",
+      "allLeads": "wesjadams\nukhernandez13\ntraderaziel\nMussnerEmma\nSnookbitQ\nScottyDont05\ndanjpatterson\nDurdenMaster\nAminuUdubo\nnassorsf\nQoocee5108\nHazimMusa2",
+      "variants": [
+        { "message": "Hey {firstName}, How you doing?" },
+        { "message": "Yo {firstName}, Are you working on trading right now?" },
+        { "message": "How are you broo?" },
+        { "message": "Kaise ho bhai ?" },
+        { "message": "Sbh  bhadiya?" }
+      ],
+      "platform": "twitter",
+      "autoLikeNewestPost": false,
+      "createdAt": 1752853481884,
+      "followUser": true,
+      "totalLeads": 12,
+      "autoLikeStory": false,
+      "name": "Golumolu",
+      "tag": "agency",
+      "workingHours": { "start": 8, "end": 18 },
+      "messageLimits": { "min": 405, "max": 450 },
+      "status": "active",
+      "lastUpdated": { "_seconds": 1753203920, "_nanoseconds": 227000000 },
+      "id": "ppMyUzBUmQqBn6u9ELAA",
+      "leads": [],
+      "leadsCount": 12
+    }
+  ]
+};
+
 // Sample campaign and account data (from your logs)
 const campaign = {
   id: '4xDCDZoV82xsDze6RC5s',
@@ -73,9 +161,9 @@ let leads = usernames.map((username, i) => {
   };
 });
 
-// GET /api/v1/campaign/
-app.get('/api/v1/campaign/', (req, res) => {
-  res.json({ success: true, campaigns: [campaign] });
+// /api/v1/campaign endpoint
+app.get('/api/v1/campaign', (req, res) => {
+  res.json(campaignResponse);
 });
 
 // GET /api/v1/campaign/account-status
