@@ -452,6 +452,7 @@ app.get('/api/v1/campaign/campaign-status', (req, res) => {
 app.get('/api/v1/campaign/fetch-leads', (req, res) => {
   // Return the next batch of 8 unsent leads
   const batch = leads.filter(l => !l.sent).slice(0, 8);
+  console.log('Returning batch of leads:', batch.map(l => l.username));
   res.json({
     success: true,
     leads: batch,
@@ -483,6 +484,7 @@ app.put('/api/v1/campaign/set-lead-status', (req, res) => {
     lead.status = 'sent';
     messagesSentToday++;
     pendingLeadsCount--;
+    console.log(`Lead marked as sent: ${lead.username} (${lead.id})`);
   }
   res.json({ success: true });
 });
