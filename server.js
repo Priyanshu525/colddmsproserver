@@ -61,12 +61,12 @@ let leads = [
 ];
 
 // Middleware: check for jwt_token cookie
-app.use((req, res, next) => {
-  if (!req.cookies.jwt_token) {
-    return res.status(401).json({ success: false, message: 'Missing jwt_token' });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (!req.cookies.jwt_token) {
+//     return res.status(401).json({ success: false, message: 'Missing jwt_token' });
+//   }
+//   next();
+// });
 
 // GET /api/v1/campaign/
 app.get('/api/v1/campaign/', (req, res) => {
