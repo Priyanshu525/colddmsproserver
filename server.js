@@ -11,117 +11,92 @@ app.use(cors({
   credentials: true
 }));
 
-// In-memory data stores
-let campaigns = [
-  {
-    id: '4xDCDZoV82xsDze6RC5s',
-    platform: 'instagram',
-    status: 'active',
-    followUser: true,
-    name: 'testa',
-    description: 'tefs',
-    variants: [
-      { message: 'hello 1' },
-      { message: 'hello 2' },
-      { message: 'hello 3' },
-      { message: 'hello 4' },
-      { message: 'hello 5' }
-    ],
-    withinWorkingHours: true,
-    autoLikeStory: true,
-    autoLikeNewestPost: true
-  }
+// Sample campaign and account data (from your logs)
+const campaign = {
+  id: '4xDCDZoV82xsDze6RC5s',
+  platform: 'instagram',
+  status: 'active',
+  followUser: true,
+  name: 'testa',
+  description: 'tefs',
+  variants: [
+    { message: 'hello 1' },
+    { message: 'hello 2' },
+    { message: 'hello 3' },
+    { message: 'hello 4' },
+    { message: 'hello 5' }
+  ],
+  withinWorkingHours: true,
+  autoLikeStory: true,
+  autoLikeNewestPost: true
+};
+
+const account = {
+  accountId: 'golumolu_c36f7c19',
+  displayName: 'Golumolu',
+  createdAt: Date.now(),
+  lastUpdated: { _seconds: Math.floor(Date.now() / 1000), _nanoseconds: 935000000 },
+  campaignId: campaign.id,
+  status: 'active',
+  pendingLeadsCount: 67
+};
+
+// Provided usernames as leads
+const usernames = [
+  'nagpalgalaxy','frank_w4','liawyeefai77','thom.nb.sparks','jsmrdck','the.shavin','randyjrichards','sardarmosin','nicolas_the_kitty','harsus7','midhu140','cheryl.bell.792','sutton.remi','jay.sukumaran','nobodycaresdee','amritjena_','licaonz','menamanmishra','allanjhone.com.br','lumina_by_victoria','mr_jonasemily','iamkatiebryan','luca.piccinotti','madankandula','ryanjeffreycruz','monshor','agyassine_','easierwitharda','jacobweiss','dannyliewkc','damien_charbit','naomi.rila','jamesngww','drlieselholler','itsritiqs','grietjiedupreez0','joemaloshthatguy','veghda317','safeeera_ashraf','atelierkatsb','liset0109','fadykhalife','sheikh.khawar.qayyum','dadaba_shadyvic0931','his_june','v_vaek_7','albakras_music','madhan_thesteelbird','lleex.xii','nextgenwealthandinsurance','dori.lmt','ann.borchers','nathannunesy','matiascov.s','misscharmaine01','ely_gold','deano12341','1.apha','dorseybyers','kipsons','the_copy_alchemist','bharwani.rohit','_productsandservices','ashokrsaini','lake.wendy','ivy091909','musalesakshi9','haidarsalman15','asifthekkc','yousafzai__777','whoisshahalam','the_spiritual_soul_7','mariamaher_official','_vivek_saikia','moonstream.io','heymuhammadali','toptonmedia','samuelmurphy_','_g.o.b.e','benlopezarch','brooklyngfit_sg','pizzleainteasy','babssexton','betotamez','adamantiumm','abbas_michael_traore','lejohndary1','soymarcelgarcia','chetan_mishra_0095'
 ];
-let accounts = [
-  {
-    accountId: 'golumolu_c36f7c19',
-    displayName: 'Golumolu',
-    createdAt: Date.now(),
-    lastUpdated: { _seconds: Math.floor(Date.now()/1000), _nanoseconds: 0 },
-    campaignId: '4xDCDZoV82xsDze6RC5s',
-    status: 'active',
-    pendingLeadsCount: 67
-  }
-];
-let leads = [
-  // Example leads, can be expanded
-  {
-    id: 'CVDINxFu4qriNWZoDMKw',
-    username: 'madankandula',
+
+// Helper to generate a fake Firestore timestamp
+function nowTS() {
+  const now = Date.now();
+  return {
+    _seconds: Math.floor(now / 1000),
+    _nanoseconds: Math.floor((now % 1000) * 1e6)
+  };
+}
+
+// Generate leads with realistic data
+let leads = usernames.map((username, i) => {
+  const baseDate = Date.now() - (usernames.length - i) * 100000;
+  return {
+    id: Math.random().toString(36).substr(2, 20),
+    username,
     sent: false,
-    baseDate: Date.now(),
-    lastReassignedAt: { _seconds: Math.floor(Date.now()/1000), _nanoseconds: 0 },
-    assignedAt: { _seconds: Math.floor(Date.now()/1000), _nanoseconds: 0 },
-    assignedAccount: 'golumolu_c36f7c19',
+    baseDate,
+    lastReassignedAt: nowTS(),
+    assignedAt: nowTS(),
+    assignedAccount: account.accountId,
     status: 'ready',
     followUps: [],
     type: 'initial',
-    baseDateTimestamp: Date.now()
-  }
-];
-
-// Middleware: check for jwt_token cookie
-// app.use((req, res, next) => {
-//   if (!req.cookies.jwt_token) {
-//     return res.status(401).json({ success: false, message: 'Missing jwt_token' });
-//   }
-//   next();
-// });
+    baseDateTimestamp: baseDate
+  };
+});
 
 // GET /api/v1/campaign/
 app.get('/api/v1/campaign/', (req, res) => {
-  res.json({ success: true, campaigns });
+  res.json({ success: true, campaigns: [campaign] });
 });
 
 // GET /api/v1/campaign/account-status
 app.get('/api/v1/campaign/account-status', (req, res) => {
-  const { widgetID } = req.query;
-  const account = accounts.find(a => a.accountId === widgetID);
-  if (!account) {
-    return res.json({ success: false, message: 'Account not found' });
-  }
   res.json({ success: true, account });
 });
 
 // POST /api/v1/campaign/start
 app.post('/api/v1/campaign/start', (req, res) => {
-  const { campaignID } = req.query;
-  const { displayName, widgetId } = req.body;
-  let account = accounts.find(a => a.accountId === widgetId);
-  if (!account) {
-    account = {
-      accountId: widgetId,
-      displayName,
-      createdAt: Date.now(),
-      lastUpdated: { _seconds: Math.floor(Date.now()/1000), _nanoseconds: 0 },
-      campaignId: campaignID,
-      status: 'active',
-      pendingLeadsCount: 67
-    };
-    accounts.push(account);
-  } else {
-    account.status = 'active';
-    account.campaignId = campaignID;
-    account.displayName = displayName;
-    account.lastUpdated = { _seconds: Math.floor(Date.now()/1000), _nanoseconds: 0 };
-  }
-  res.json({ success: true, message: 'Campaign started, account created/reused. Lead assignment will proceed in the background.', accountId: widgetId });
+  res.json({ success: true, message: 'Campaign started, account created/reused. Lead assignment will proceed in the background.', accountId: account.accountId });
 });
 
 // GET /api/v1/campaign/campaign-status
 app.get('/api/v1/campaign/campaign-status', (req, res) => {
-  const { campaignID } = req.query;
-  const campaign = campaigns.find(c => c.id === campaignID);
-  if (!campaign) {
-    return res.json({ success: false, message: 'Campaign not found' });
-  }
   res.json({ success: true, campaign });
 });
 
 // GET /api/v1/campaign/fetch-leads
 app.get('/api/v1/campaign/fetch-leads', (req, res) => {
-  const { campaignID, accountId } = req.query;
-  const batchLeads = leads.filter(l => l.assignedAccount === accountId);
+  // Only return leads that are not sent
+  const batchLeads = leads.filter(l => !l.sent).slice(0, 8);
   res.json({
     success: true,
     leads: batchLeads,
@@ -138,27 +113,25 @@ app.get('/api/v1/campaign/fetch-leads', (req, res) => {
 
 // GET /api/v1/campaign/fetch-lead
 app.get('/api/v1/campaign/fetch-lead', (req, res) => {
-  const { campaignID, leadID } = req.query;
+  const { leadID } = req.query;
   const lead = leads.find(l => l.id === leadID);
-  if (!lead) {
-    return res.json({ success: false, message: 'Lead not found' });
-  }
+  if (!lead) return res.json({ success: false, message: 'Lead not found' });
   res.json({ success: true, lead });
 });
 
 // PUT /api/v1/campaign/set-lead-status
 app.put('/api/v1/campaign/set-lead-status', (req, res) => {
-  const { campaignID, leadID } = req.query;
+  const { leadID } = req.query;
   const lead = leads.find(l => l.id === leadID);
   if (lead) {
     lead.status = 'sent';
+    lead.sent = true;
   }
   res.json({ success: true });
 });
 
 // POST /api/v1/campaign/analytics
 app.post('/api/v1/campaign/analytics', (req, res) => {
-  // Accepts analytics data, just return success
   res.json({ success: true });
 });
 
