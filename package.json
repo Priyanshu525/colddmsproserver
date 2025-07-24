@@ -1,0 +1,17 @@
+{
+  "name": "colddmspro-mock-server",
+  "version": "1.0.0",
+  "description": "Mock server for colddmspro Chrome extension, replicating API endpoints and logic.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "cookie-parser": "^1.4.6"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+} 
