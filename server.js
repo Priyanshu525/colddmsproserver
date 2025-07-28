@@ -11,31 +11,53 @@ app.use(cors({
   credentials: true
 }));
 
-// --- In-memory stateful data based on log.txt ---
+// --- In-memory stateful data based on new response structure ---
 
-const campaignId = 'lhSmGHk3lU8IURMDzuY4';
+// Campaign, account, and lead data (updated to match the provided response)
+const campaignId = 'ppMyUzBUmQqBn6u9ELAA';
 const accountId = 'gola_d7828f9e';
 const displayName = 'gola';
-const campaignCreatedAt = 1753384425694;
+const campaignName = 'Golumolu';
+const campaignDescription = 'gsknfd';
+const campaignVariants = [
+  { message: 'Hey {firstName}, How you doing?' },
+  { message: 'Yo {firstName}, Are you working on trading right now?' },
+  { message: 'How are you broo?' },
+  { message: 'Kaise ho bhai ?' },
+  { message: 'Sbh  bhadiya?' }
+];
+const campaignPlatform = 'twitter';
+const campaignCreatedAt = 1752853481884;
+const campaignTag = 'agency';
+const campaignWorkingHours = { start: 8, end: 18 };
+const campaignMessageLimits = { min: 405, max: 450 };
+const campaignStatus = 'ready';
+const campaignLeadsCount = 12;
+const campaignAutoLikeStory = false;
+const campaignAutoLikeNewestPost = false;
+const campaignFollowUser = true;
+const campaignTotalLeads = 12;
+const campaignAllLeads = `wesjadams
+ukhernandez13
+traderaziel
+MussnerEmma
+SnookbitQ
+ScottyDont05
+danjpatterson
+DurdenMaster
+AminuUdubo
+nassorsf
+Qoocee5108
+HazimMusa2`;
 
-const campaignAllLeads = `leo.copywriter
-giuliosicoli
-vivienne.benitz
-tommymcdermottcomedy
-matt.rogers.7140497
-wikimami.ro
-...`; // (truncate for brevity or keep full)
-
+// Helper to generate leads array from allLeads string
 function generateLeads(allLeadsStr) {
   return allLeadsStr.trim().split('\n').map((username, idx) => ({
-    id: Math.random().toString(36).substr(2, 20),
+    id: Math.random().toString(36).substr(2, 20), // random 20-char id
     username,
     sent: false,
     baseDate: campaignCreatedAt + idx * 1000,
-    assignedAt: {
-      _seconds: Math.floor((campaignCreatedAt + idx * 1000) / 1000),
-      _nanoseconds: 335000000
-    },
+    assignedAt: { _seconds: Math.floor((campaignCreatedAt + idx * 1000) / 1000), _nanoseconds: 335000000 },
     assignedAccount: accountId,
     status: 'ready',
     followUps: [],
@@ -50,41 +72,36 @@ let pendingLeadsCount = leads.length;
 
 // --- Endpoints ---
 
-// ✅ Custom first-request response here
+// GET /api/v1/campaign
 app.get('/api/v1/campaign', (req, res) => {
   res.json({
-    name: 'HD_Media',
+    name: "HD_Media",
     isSubscribed: true,
     campaigns: [
       {
-        description: 'gsknfd',
-        allLeads: 'wesjadams\nukhernandez13\ntraderaziel\nMussnerEmma\nSnookbitQ\nScottyDont05\ndanjpatterson\nDurdenMaster\nAminuUdubo\nnassorsf\nQoocee5108\nHazimMusa2',
-        variants: [
-          { message: 'Hey {firstName}, How you doing?' },
-          { message: 'Yo {firstName}, Are you working on trading right now?' },
-          { message: 'How are you broo?' },
-          { message: 'Kaise ho bhai ?' },
-          { message: 'Sbh  bhadiya?' }
-        ],
-        platform: 'twitter',
-        autoLikeNewestPost: false,
-        createdAt: 1752853481884,
-        followUser: true,
-        totalLeads: 12,
-        autoLikeStory: false,
-        name: 'Golumolu',
-        tag: 'agency',
-        workingHours: { start: 8, end: 18 },
-        messageLimits: { min: 405, max: 450 },
-        status: 'ready',
-        id: 'ppMyUzBUmQqBn6u9ELAA',
+        description: campaignDescription,
+        allLeads: campaignAllLeads,
+        variants: campaignVariants,
+        platform: campaignPlatform,
+        autoLikeNewestPost: campaignAutoLikeNewestPost,
+        createdAt: campaignCreatedAt,
+        followUser: campaignFollowUser,
+        totalLeads: campaignTotalLeads,
+        autoLikeStory: campaignAutoLikeStory,
+        name: campaignName,
+        tag: campaignTag,
+        workingHours: campaignWorkingHours,
+        messageLimits: campaignMessageLimits,
+        status: campaignStatus,
+        id: campaignId,
         leads: [],
-        leadsCount: 12
+        leadsCount: campaignLeadsCount
       }
     ]
   });
 });
 
+// POST /api/v1/campaign/start
 app.post('/api/v1/campaign/start', (req, res) => {
   res.json({
     success: true,
@@ -93,6 +110,7 @@ app.post('/api/v1/campaign/start', (req, res) => {
   });
 });
 
+// GET /api/v1/campaign/account-status
 app.get('/api/v1/campaign/account-status', (req, res) => {
   res.json({
     success: true,
@@ -108,31 +126,28 @@ app.get('/api/v1/campaign/account-status', (req, res) => {
   });
 });
 
+// GET /api/v1/campaign/campaign-status
 app.get('/api/v1/campaign/campaign-status', (req, res) => {
   res.json({
     success: true,
     campaign: {
-      platform: 'instagram',
+      platform: campaignPlatform,
       status: 'active',
-      followUser: true,
-      name: 'gogi',
-      description: 'gogi',
-      variants: [
-        { message: 'Hello ji 1' },
-        { message: 'Hello ji 2' },
-        { message: 'Hello ji 3' },
-        { message: 'Hello ji 4' },
-        { message: 'Hello ji 5' }
-      ],
+      followUser: campaignFollowUser,
+      name: campaignName,
+      description: campaignDescription,
+      variants: campaignVariants,
       id: campaignId,
       withinWorkingHours: true,
-      autoLikeStory: true,
-      autoLikeNewestPost: true
+      autoLikeStory: campaignAutoLikeStory,
+      autoLikeNewestPost: campaignAutoLikeNewestPost
     }
   });
 });
 
+// GET /api/v1/campaign/fetch-leads
 app.get('/api/v1/campaign/fetch-leads', (req, res) => {
+  // Return the next batch of 8 unsent leads
   const batch = leads.filter(l => !l.sent).slice(0, 8);
   console.log('Returning batch of leads:', batch.map(l => l.username));
   res.json({
@@ -141,14 +156,15 @@ app.get('/api/v1/campaign/fetch-leads', (req, res) => {
     batchSize: 8,
     messagesSentToday,
     messagesAllowedByNow: 31,
-    messageLimitsMax: 41,
-    remainingMessages: 41 - messagesSentToday,
+    messageLimitsMax: 450,
+    remainingMessages: 450 - messagesSentToday,
     progressThroughWorkDay: '64%',
     currentTimeET: '15:22',
     dateFormatted: '24-07-2025'
   });
 });
 
+// GET /api/v1/campaign/fetch-lead
 app.get('/api/v1/campaign/fetch-lead', (req, res) => {
   const { leadID } = req.query;
   const lead = leads.find(l => l.id === leadID);
@@ -156,6 +172,7 @@ app.get('/api/v1/campaign/fetch-lead', (req, res) => {
   res.json({ success: true, lead });
 });
 
+// PUT /api/v1/campaign/set-lead-status
 app.put('/api/v1/campaign/set-lead-status', (req, res) => {
   const { leadID } = req.query;
   const lead = leads.find(l => l.id === leadID);
@@ -169,11 +186,13 @@ app.put('/api/v1/campaign/set-lead-status', (req, res) => {
   res.json({ success: true });
 });
 
+// POST /api/v1/campaign/analytics
 app.post('/api/v1/campaign/analytics', (req, res) => {
+  // Accepts analytics data, always returns success
   res.json({ success: true });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Mock colddmspro API server running on port ${PORT}`);
-});
+}); 
